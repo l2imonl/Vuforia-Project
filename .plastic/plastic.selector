@@ -1,0 +1,4 @@
+repository "Vuforia Project@l2imonl@cloud"
+  path "/"
+    br "/main"
+    co "/main"
