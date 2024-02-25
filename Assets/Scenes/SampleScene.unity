@@ -1131,7 +1131,6 @@ MonoBehaviour:
   cornerBehaviour2: {fileID: 299848073}
   prefab: {fileID: 4670437073953554572, guid: 9b37bbd73133fc946b8d97489c2fcd50, type: 3}
   gridCellPrefab: {fileID: 4423429882388896104, guid: 0f51134882d9a0145b372db071415d3b, type: 3}
-  spawnInterval: 2
   gridCellSize: 0.1
 --- !u!1 &790185371
 GameObject:
@@ -2073,6 +2072,7 @@ MonoBehaviour:
   marker2: {fileID: 299848066}
   cellSize: 0.1
   gridCellPrefab: {fileID: 4670437073953554572, guid: 9b37bbd73133fc946b8d97489c2fcd50, type: 3}
+  spawnedPrefabs: []
   enemyPrefab: {fileID: 463747922814081431, guid: 04282759a3ef59a40a957649cdac07fe, type: 3}
 --- !u!4 &1793687214
 Transform:
