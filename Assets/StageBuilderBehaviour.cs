@@ -98,29 +98,16 @@ public class StageBuilder : MonoBehaviour
     }
 
     public void CreateRandomPoints(){
-        ClearSpawnedObjects();
-
-        Vector3 randomPoint1 = GenerateRandomPoint(-1);
-        Vector3 randomPoint2 = GenerateRandomPoint(+1);
-        Vector3 randomPointPrefab = GenerateRandomPoint(0);
-
-        // Debug.Log($"Random Point 1: {randomPoint1}");
-        // Debug.Log($"Random Point 2: {randomPoint2}");
-
-        spawnPoint = CreateSphereAtPoint(randomPoint1);
-        endPoint = CreateSphereAtPoint(randomPoint2);
-
-        // Spawn a prefab at a random point inside the rectangle
-        GameObject newPrefabInstance = Instantiate(prefab, randomPointPrefab, Quaternion.identity);
-        spawnedPrefabs.Add(newPrefabInstance); // Keep track of the spawned prefab
+        ClearSpawnedObjects(); 
 
         // GRID
         Vector3 startPoint = ImageTarget1.transform.position;
-        Vector3 endPoint2 = ImageTarget2.transform.position;
+        Vector3 endPoint = ImageTarget2.transform.position;
+        Vector3 lowerLeft = new Vector3(Mathf.Min(startPoint.x, endPoint.x), ImageTarget1.transform.position.y, Mathf.Min(startPoint.z, endPoint.z));
 
         // Use Vector3.Distance for a positive magnitude and manually calculate for each axis if needed
-        float distanceX = Mathf.Abs(endPoint2.x - startPoint.x);
-        float distanceZ = Mathf.Abs(endPoint2.z - startPoint.z);
+        float distanceX = Mathf.Abs(endPoint.x - startPoint.x);
+        float distanceZ = Mathf.Abs(endPoint.z - startPoint.z);
 
         // Calculate how many cells fit into the playfield size based on absolute distances
         int gridSizeX = Mathf.FloorToInt(distanceX / gridCellSize);
@@ -133,18 +120,18 @@ public class StageBuilder : MonoBehaviour
         {
             for (int y = 0; y < gridSizeY; y++)
             {
-                Vector3 cellPosition = startPoint + new Vector3(x * gridCellSize + gridCellSize / 2, 0, y * gridCellSize + gridCellSize / 2);
-                // Optionally instantiate a visual representation of the grid cell
+                Vector3 cellPosition = lowerLeft + new Vector3(x * gridCellSize + gridCellSize, 0, y * gridCellSize + gridCellSize);
+                
                 GameObject newGridCellPrefab = Instantiate(gridCellPrefab, cellPosition, Quaternion.identity);
-                spawnedPrefabs.Add(newGridCellPrefab);
-                Debug.Log($"Grid Cell spawned at: {cellPosition}");
+                spawnedPrefabs.Add(newGridCellPrefab);  // Keep track of the spawned prefab
+                // Debug.Log($"Grid Cell spawned at: {cellPosition}");
             }
         }
 
         // Stop any previous spawning coroutine
         StopAllCoroutines();
 
-        StartCoroutine(SpawnAndMoveCubes(randomPoint1, randomPoint2, spawnInterval, 5f)); // Move each cube over 5 seconds
+        // StartCoroutine(SpawnAndMoveCubes(randomPoint1, randomPoint2, spawnInterval, 5f)); // Move each cube over 5 seconds
     }
 
     private void ClearSpawnedObjects(){
