@@ -12,7 +12,7 @@ public class NavigationGrid : MonoBehaviour
     private int gridSizeX, gridSizeY;
 
     public GameObject gridCellPrefab; // Assign a simple prefab for visualization
-    private List<GameObject> spawnedPrefabs = new List<GameObject>();
+    public List<GameObject> spawnedPrefabs = new List<GameObject>();
 
     public List<GridCell> pathForEnemys;
 

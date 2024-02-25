@@ -4,26 +4,19 @@ using UnityEngine;
 
 public class TowerBehaviour : MonoBehaviour
 {
-    private StageBuilder stageBuilderScript; // Reference to the RandomPointsGenerator
+    private NavigationGrid navigationGrid; // Reference to the Pathfinding component
     private LineRenderer lineRenderer;
-    private GameObject nearestCube;
+    private GameObject nearestEnemy;
 
     private List<GameObject> enemyList;
-
-    private float y;
 
     // Start is called before the first frame update
     void Start()
     {
-        GameObject stageBuilder = GameObject.FindWithTag("spawner");
+        navigationGrid = NavigationGrid.Instance;
 
-        if(stageBuilder != null){
-            stageBuilderScript = stageBuilder.GetComponent<StageBuilder>();
-
-            if(stageBuilderScript != null){
-                enemyList = stageBuilderScript.GetSpawnedList();
-                y = stageBuilderScript.GetY();
-            }
+        if (navigationGrid != null){
+            enemyList = navigationGrid.spawnedPrefabs;
         }
 
         // Initialize the LineRenderer
@@ -41,27 +34,29 @@ public class TowerBehaviour : MonoBehaviour
 
     void FindNearestCubeAndUpdateLine()
     {
-        float minDistance = float.MaxValue;
+        float minDistance = 5f;
+
+        nearestEnemy = null;
 
         Vector3 myPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
-        foreach (GameObject cube in enemyList)
+        foreach (GameObject enemy in enemyList)
         {
-            float distance = Vector3.Distance(myPosition, cube.transform.position);
+            float distance = Vector3.Distance(myPosition, enemy.transform.position);
             if (distance < minDistance)
             {
                 minDistance = distance;
-                nearestCube = cube;
+                nearestEnemy = enemy;
             }
         }
 
-        if (nearestCube != null)
+        if (nearestEnemy != null)
         {
             // Draw a line from the reactor GameObject to the nearest cube
             lineRenderer.positionCount = 2;
             
             lineRenderer.SetPosition(0, myPosition);
-            lineRenderer.SetPosition(1, nearestCube.transform.position);
+            lineRenderer.SetPosition(1, nearestEnemy.transform.position);
         }
         else
         {
