@@ -84,14 +84,14 @@ public class NavigationGrid : MonoBehaviour
     // Optionally, visualize the grid for debugging
     public void visualize()
     {
-        if (grid != null)
-        {
-            foreach (GridCell n in grid)
-            {
-                GameObject newGridCellPrefab = Instantiate(gridCellPrefab, n.WorldPosition, Quaternion.identity);
-                spawnedPrefabs.Add(newGridCellPrefab);
-            }
-        }
+        // if (grid != null)
+        // {
+        //     foreach (GridCell n in grid)
+        //     {
+        //         GameObject newGridCellPrefab = Instantiate(gridCellPrefab, n.WorldPosition, Quaternion.identity);
+        //         spawnedPrefabs.Add(newGridCellPrefab);
+        //     }
+        // }
         if(pathForEnemys.Count > 0){
             lineRenderer.positionCount = pathForEnemys.Count;
             for (int i = 0; i < pathForEnemys.Count; i++)
