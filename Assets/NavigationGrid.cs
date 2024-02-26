@@ -45,6 +45,24 @@ public class NavigationGrid : MonoBehaviour
         lineRenderer.startColor = lineRenderer.endColor = Color.blue; // Change line color here
     }
 
+    void OnEnable()
+    {
+        Enemy.OnEnemyDestroyed += RemoveEnemyFromList;
+    }
+
+    void OnDisable()
+    {
+        Enemy.OnEnemyDestroyed -= RemoveEnemyFromList;
+    }
+
+    void RemoveEnemyFromList(GameObject enemy)
+    {
+        if (spawnedPrefabs.Contains(enemy))
+        {
+            spawnedPrefabs.Remove(enemy);
+        }
+    }
+
     public void InitializeGrid()
     {
         clearPrefabs();
@@ -84,14 +102,6 @@ public class NavigationGrid : MonoBehaviour
     // Optionally, visualize the grid for debugging
     public void visualize()
     {
-        // if (grid != null)
-        // {
-        //     foreach (GridCell n in grid)
-        //     {
-        //         GameObject newGridCellPrefab = Instantiate(gridCellPrefab, n.WorldPosition, Quaternion.identity);
-        //         spawnedPrefabs.Add(newGridCellPrefab);
-        //     }
-        // }
         if(pathForEnemys.Count > 0){
             lineRenderer.positionCount = pathForEnemys.Count;
             for (int i = 0; i < pathForEnemys.Count; i++)

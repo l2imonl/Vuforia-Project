@@ -1839,6 +1839,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 015b61a73df778d4eb58f36854d08ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 0}
+  shootInterval: 1
 --- !u!1001 &1539532081
 PrefabInstance:
   m_ObjectHideFlags: 0

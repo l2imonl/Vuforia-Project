@@ -93,3 +93,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 015b61a73df778d4eb58f36854d08ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 187370897727549699, guid: 40c35bca81a29da43a7139e880f9ceeb, type: 3}
+  shootInterval: 1

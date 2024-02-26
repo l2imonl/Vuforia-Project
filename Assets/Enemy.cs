@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private NavigationGrid navigationGrid; // Reference to the Pathfinding component
-    public float speed = 0.5f; // Speed at which the enemy moves along the path
 
+    public float speed = 0.3f; // Speed at which the enemy moves along the path
+    public int health = 100;
+    public delegate void EnemyDestroyed(GameObject enemy);
+    public static event EnemyDestroyed OnEnemyDestroyed;
+
+    private NavigationGrid navigationGrid; // Reference to the Pathfinding component
     private List<GridCell> path = new List<GridCell>();
     private int targetIndex;
 
@@ -18,6 +22,19 @@ public class Enemy : MonoBehaviour
         if (path.Count > 0)
         {
             StartCoroutine(FollowPath());
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        Debug.Log($"TakeDamage: {damage}");
+        health -= damage;
+        if (health <= 0)
+        {
+            OnEnemyDestroyed?.Invoke(gameObject);
+            Destroy(gameObject); // Destroy enemy if health is 0 or less
+
+            //TODO get money
         }
     }
 
@@ -33,7 +50,9 @@ public class Enemy : MonoBehaviour
                 targetIndex++;
                 if (targetIndex >= path.Count)
                 {
-                    // TODO kill enemy reduce player life
+                    // TODO reduce player life
+                    OnEnemyDestroyed?.Invoke(gameObject);
+                    Destroy(gameObject);
                     yield break; // Exit the coroutine if the end of the path is reached
                 }
                 currentWaypoint = path[targetIndex].WorldPosition;
