@@ -2092,6 +2092,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1793687214}
   - component: {fileID: 1793687213}
+  - component: {fileID: 1793687215}
   m_Layer: 0
   m_Name: NavigationGrid
   m_TagString: Untagged
@@ -2111,15 +2112,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9358640d23bb61d4589d6996185a5e65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unwalkableMask:
-    serializedVersion: 2
-    m_Bits: 0
   marker1: {fileID: 898220590}
   marker2: {fileID: 299848066}
   cellSize: 0.1
-  gridCellPrefab: {fileID: 4670437073953554572, guid: 9b37bbd73133fc946b8d97489c2fcd50, type: 3}
   spawnedPrefabs: []
   enemyPrefab: {fileID: 1246070444819080, guid: 39ed22f821d29634f947249e51bc66e4, type: 3}
+  spawnPrefab: {fileID: 1961659902003340, guid: 09aa52c75cd717e42aa7e5a747ad8e98, type: 3}
+  endpointPrefab: {fileID: 1173776643120316, guid: 44c2e8d8f63d58240b6df8ec2c63bda4, type: 3}
+  groundGrassPrefab: {fileID: 1933440745349800, guid: 2a95ec9fd4ebda94796f965390dc41e1, type: 3}
+  groundPathPrefab: {fileID: 1232698016045124, guid: 4a87ef304e1adfb4abbaa388dc523abd, type: 3}
 --- !u!4 &1793687214
 Transform:
   m_ObjectHideFlags: 0
@@ -2135,6 +2136,110 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!120 &1793687215
+LineRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793687212}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.038637407
+        value: 0.04500535
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 0.7921569, g: 0.765178, b: 0.17647056, a: 1}
+      key1: {r: 0.7921569, g: 0.765178, b: 0.17647056, a: 1}
+      key2: {r: 0.1764706, g: 0.45882356, b: 0.79215693, a: 1}
+      key3: {r: 0.1764706, g: 0.45882356, b: 0.79215693, a: 1}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 24287
+      ctime3: 47417
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 65535
+      atime3: 65535
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MaskInteraction: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
+  m_ApplyActiveColorSpace: 1
 --- !u!1 &1801005041
 GameObject:
   m_ObjectHideFlags: 0

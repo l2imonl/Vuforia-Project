@@ -4,21 +4,24 @@ using System.Collections.Generic;
 
 public class NavigationGrid : MonoBehaviour
 {
-    public LayerMask unwalkableMask; // Define unwalkable areas in the Inspector
     public GameObject marker1; // Assign marker1 in the Inspector
     public GameObject marker2; // Assign marker2 in the Inspector
     public float cellSize = 0.1f; // Desired size for each grid cell
+    public List<GameObject> spawnedPrefabs = new List<GameObject>();
+    public List<GridCell> pathForEnemys;
+    public GameObject enemyPrefab;
+    public GameObject spawnPrefab;
+    public GameObject endpointPrefab;
+    public GameObject groundGrassPrefab;
+    public GameObject groundPathPrefab;
+
     private GridCell[,] grid;
     private int gridSizeX, gridSizeY;
+    private GameObject spawn;
+    private GameObject endpoint;
+    private List<GameObject> groundPrefabs = new List<GameObject>();
 
-    public GameObject gridCellPrefab; // Assign a simple prefab for visualization
-    public List<GameObject> spawnedPrefabs = new List<GameObject>();
 
-    public List<GridCell> pathForEnemys;
-
-    public GameObject enemyPrefab;
-
-    private LineRenderer lineRenderer;
 
     public static NavigationGrid Instance { get; private set; }
 
@@ -36,13 +39,6 @@ public class NavigationGrid : MonoBehaviour
 
     void Start()
     {
-        // Initialize the LineRenderer component
-        lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.widthMultiplier = 0.02f; // Change the width of the line here
-
-        // Optional: Customize the appearance of the line
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.startColor = lineRenderer.endColor = Color.blue; // Change line color here
     }
 
     void OnEnable()
@@ -75,13 +71,22 @@ public class NavigationGrid : MonoBehaviour
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / cellSize);
 
         CreateGrid(worldBottomLeft, gridWorldSize);
+
+        // init spawn and endpoint prefabs
+        Vector3 spawnCoordinates = grid[0, 0].WorldPosition;
+        Vector3 endpointCoordinates = grid[gridSizeX - 1, gridSizeY - 1].WorldPosition;
+
+
+        spawn = Instantiate(spawnPrefab, spawnCoordinates, Quaternion.identity);
+        endpoint = Instantiate(endpointPrefab, endpointCoordinates, Quaternion.identity);
+
         pathForEnemys = FindPath(0,0,gridSizeX-1, gridSizeY-1);
         // create new Path until one can be solved
         while(pathForEnemys.Count == 0){
             CreateGrid(worldBottomLeft, gridWorldSize);
             pathForEnemys = FindPath(0, 0, gridSizeX - 1, gridSizeY - 1);
         }
-        visualize();
+        visualizePath();
     }
 
     void CreateGrid(Vector3 worldBottomLeft, Vector2 gridWorldSize)
@@ -100,23 +105,29 @@ public class NavigationGrid : MonoBehaviour
     }
 
     // Optionally, visualize the grid for debugging
-    public void visualize()
+    public void visualizePath()
     {
         if(pathForEnemys.Count > 0){
-            lineRenderer.positionCount = pathForEnemys.Count;
             for (int i = 0; i < pathForEnemys.Count; i++)
             {
-                lineRenderer.SetPosition(i, pathForEnemys[i].WorldPosition); // Set the position of each point
+                groundPrefabs.Add(Instantiate(groundPathPrefab, pathForEnemys[i].WorldPosition, Quaternion.identity));
             }
         }
     }
 
     private void clearPrefabs(){
+        Destroy(spawn);
+        Destroy(endpoint);
         foreach (GameObject spawnedPrefab in spawnedPrefabs)
         {
             Destroy(spawnedPrefab);
         }
+        foreach (GameObject spawnedPrefab in groundPrefabs)
+        {
+            Destroy(spawnedPrefab);
+        }
         spawnedPrefabs.Clear();
+        groundPrefabs.Clear();
     }
 
     //Pathfinding
