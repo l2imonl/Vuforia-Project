@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TowerBehaviour : MonoBehaviour
 {
+    public float minDistance = 0.3f;
+
     private NavigationGrid navigationGrid; // Reference to the Pathfinding component
     private LineRenderer lineRenderer;
     private GameObject nearestEnemy;
@@ -34,8 +36,6 @@ public class TowerBehaviour : MonoBehaviour
 
     void FindNearestCubeAndUpdateLine()
     {
-        float minDistance = 5f;
-
         nearestEnemy = null;
 
         Vector3 myPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);

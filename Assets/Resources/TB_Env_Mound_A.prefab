@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4795175018131910}
   - component: {fileID: 33160913075734926}
   - component: {fileID: 23362587747185928}
+  - component: {fileID: -1779655431979385349}
+  - component: {fileID: 839877926095595786}
   m_Layer: 0
   m_Name: TB_Env_Mound_A
   m_TagString: Untagged
@@ -83,3 +85,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-1779655431979385349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748690059236904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fb1f3eb3f8de224b81db5934af93fd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tower1Prefab: {fileID: 4044925433058000057, guid: 986088ea11205984b9d49c6c17c8b805, type: 3}
+--- !u!65 &839877926095595786
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748690059236904}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 20.000002, y: 3.0000005, z: 20.000002}
+  m_Center: {x: 0, y: 1.5000002, z: 0}

@@ -10,7 +10,7 @@ public class StageBuilder : MonoBehaviour
     public CornerBehaviour cornerBehaviour1;
     public CornerBehaviour cornerBehaviour2;
     public GameObject prefab;
-    public GameObject gridCellPrefab; // Assign a simple prefab for visualization
+    public GameObject towerSpawnCellPrefab; // Assign a simple prefab for visualization
     private LineRenderer lineRenderer;
     public float gridCellSize = 0.1f; // Desired size for each grid cell (e.g., 0.1 meters)
     private List<GameObject> spawnedPrefabs = new List<GameObject>();
@@ -105,7 +105,7 @@ public class StageBuilder : MonoBehaviour
             {
                 Vector3 cellPosition = lowerLeft + new Vector3(x * gridCellSize + gridCellSize, 0, y * gridCellSize + gridCellSize);
                 
-                GameObject newGridCellPrefab = Instantiate(gridCellPrefab, cellPosition, Quaternion.identity);
+                GameObject newGridCellPrefab = Instantiate(towerSpawnCellPrefab, cellPosition, Quaternion.identity);
                 spawnedPrefabs.Add(newGridCellPrefab);  // Keep track of the spawned prefab
                 // Debug.Log($"Grid Cell spawned at: {cellPosition}");
             }
