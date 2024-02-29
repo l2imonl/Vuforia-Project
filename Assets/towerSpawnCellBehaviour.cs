@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class towerSpawnCellBehaviour : MonoBehaviour
 {
+    [SerializeField]
+    public GameEconomy economy;
     public GameObject tower1Prefab;
     
     private bool towerPlaced = false;
+    private int towerCost = 30;
 
     void Start()
     {
-        
+        economy = FindObjectOfType<GameEconomy>();
     }
 
     public void onRaycast(){
         Debug.Log($"Hit:");
-        if(!towerPlaced){
+        if (!towerPlaced && (economy.GetMoney() - towerCost >= 0)){
+            economy.ReduceMoney(towerCost);
             towerPlaced = true;
             // Instantiate the new prefab at the hit position
             // You might want to adjust the position (e.g., slightly above the hit object)
@@ -23,8 +27,6 @@ public class towerSpawnCellBehaviour : MonoBehaviour
             Quaternion spawnRotation = Quaternion.identity; // No rotation, adjust as needed
 
             Instantiate(tower1Prefab, spawnPosition, spawnRotation);
-
-            //TODO reduce money
         }
 
     }

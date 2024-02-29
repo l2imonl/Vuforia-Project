@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public GameEconomy economy;
+    public Player player;
 
     public float speed = 0.3f; // Speed at which the enemy moves along the path
     public int health = 100;
+    public int enemyKilledReward = 10;
+    public int damageToPlayer = 1;
     public delegate void EnemyDestroyed(GameObject enemy);
     public static event EnemyDestroyed OnEnemyDestroyed;
 
@@ -16,6 +20,9 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        economy = FindObjectOfType<GameEconomy>();
+        player = FindObjectOfType<Player>();
+
         navigationGrid = NavigationGrid.Instance;
 
         path = navigationGrid.pathForEnemys;
@@ -34,7 +41,7 @@ public class Enemy : MonoBehaviour
             OnEnemyDestroyed?.Invoke(gameObject);
             Destroy(gameObject); // Destroy enemy if health is 0 or less
 
-            //TODO get money
+            economy.IncreaseMoney(enemyKilledReward);
         }
     }
 
@@ -50,9 +57,9 @@ public class Enemy : MonoBehaviour
                 targetIndex++;
                 if (targetIndex >= path.Count)
                 {
-                    // TODO reduce player life
                     OnEnemyDestroyed?.Invoke(gameObject);
                     Destroy(gameObject);
+                    player.DamagePlayer(damageToPlayer);
                     yield break; // Exit the coroutine if the end of the path is reached
                 }
                 currentWaypoint = path[targetIndex].WorldPosition;
