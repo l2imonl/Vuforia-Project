@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using Vuforia;
 
@@ -9,7 +10,8 @@ public class StageBuilder : MonoBehaviour
     public GameObject ImageTarget2;
     public CornerBehaviour cornerBehaviour1;
     public CornerBehaviour cornerBehaviour2;
-    public GameObject prefab;
+    public GameObject wallPrefab;
+    public float wallSpacing = 0.1f;
     public GameObject towerSpawnCellPrefab; // Assign a simple prefab for visualization
     private LineRenderer lineRenderer;
     public float gridCellSize = 0.1f; // Desired size for each grid cell (e.g., 0.1 meters)
@@ -25,6 +27,30 @@ public class StageBuilder : MonoBehaviour
         // Optional: Customize the appearance of the line
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.startColor = lineRenderer.endColor = Color.red; // Change line color here
+
+        //Vector3 pointA = ImageTarget1.transform.position;
+        //Vector3 pointB = ImageTarget2.transform.position;
+
+        //// Calculate the distance between the two points
+        //float distance = Vector3.Distance(pointA, pointB);
+        //Debug.Log($"Distance: {distance}");
+
+        //// Calculate the number of prefabs needed
+        //int numberOfPrefabs = Mathf.FloorToInt(distance / wallSpacing);
+        //Debug.Log($"numberOfPrefabs: {numberOfPrefabs}");
+
+        //// Calculate the step size for evenly distributing prefabs
+        //float step = 1.0f / numberOfPrefabs;
+
+        //// Instantiate prefabs along the line
+        //for (int i = 0; i < numberOfPrefabs; i++)
+        //{
+        //    // Calculate the position for the current prefab
+        //    Vector3 position = Vector3.Lerp(pointA, pointB, step * i);
+
+        //    // Instantiate the prefab at the calculated position
+        //    Instantiate(wallPrefab, position, Quaternion.identity);
+        //}
     }
 
     void Update()
