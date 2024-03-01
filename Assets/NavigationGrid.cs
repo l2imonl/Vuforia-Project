@@ -135,7 +135,6 @@ public class NavigationGrid : MonoBehaviour
     {
         bool[,] isVisited = new bool[grid.GetLength(0), grid.GetLength(1)];
         Dictionary<GridCell, GridCell> cameFrom = new Dictionary<GridCell, GridCell>();
-
         Queue<GridCell> queue = new Queue<GridCell>();
         GridCell startNode = grid[startX, startY];
         queue.Enqueue(startNode);
@@ -144,14 +143,10 @@ public class NavigationGrid : MonoBehaviour
         while (queue.Count > 0)
         {
             GridCell currentNode = queue.Dequeue();
-            // Debug.Log($"CurrentX: {currentNode.GridX}");
-            // Debug.Log($"CurrentY: {currentNode.GridY}");
             if (currentNode.GridX == targetX && currentNode.GridY == targetY)
             {
-                // Debug.Log($"ReconstructPath:");
                 return ReconstructPath(cameFrom, currentNode);
             }
-
             foreach (var neighbor in GetNeighbors(currentNode))
             {
                 if (!isVisited[neighbor.GridX, neighbor.GridY] && neighbor.IsWalkable)
@@ -162,7 +157,6 @@ public class NavigationGrid : MonoBehaviour
                 }
             }
         }
-
         // Return an empty path if target is not reachable
         return new List<GridCell>();
     }

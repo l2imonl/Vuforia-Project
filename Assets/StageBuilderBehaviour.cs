@@ -12,6 +12,8 @@ public class StageBuilder : MonoBehaviour
     public CornerBehaviour cornerBehaviour2;
     public GameObject wallPrefab;
     public float wallSpacing = 0.1f;
+    public GameObject groundGrassPrefab;
+
     public GameObject towerSpawnCellPrefab; // Assign a simple prefab for visualization
     private LineRenderer lineRenderer;
     public float gridCellSize = 0.1f; // Desired size for each grid cell (e.g., 0.1 meters)
@@ -84,39 +86,9 @@ public class StageBuilder : MonoBehaviour
         }
     }
 
-    // public Vector3 GenerateRandomPoint(float bias)
-    // {
-    //     if (cornerBehaviour1.tracked && cornerBehaviour2.tracked)
-    //     {
-    //         Vector3 pointA = ImageTarget1.transform.position;
-    //         Vector3 pointB = ImageTarget2.transform.position;
-    //         Vector3 pointC = new Vector3(pointA.x, pointA.y, pointB.z);
-    //         Vector3 pointD = new Vector3(pointB.x, pointA.y, pointA.z);
-
-    //         float minX = Mathf.Min(pointA.x, pointB.x, pointC.x, pointD.x);
-    //         float maxX = Mathf.Max(pointA.x, pointB.x, pointC.x, pointD.x);
-    //         float minZ = Mathf.Min(pointA.z, pointB.z, pointC.z, pointD.z);
-    //         float maxZ = Mathf.Max(pointA.z, pointB.z, pointC.z, pointD.z);
-
-    //         float quarterX = (maxX - minX) / 4;
-    //         float rangeMinX = bias < 0 ? minX : minX + (3 * quarterX);
-    //         float rangeMaxX = bias > 0 ? maxX : maxX - (3 * quarterX);
-
-    //         float randomX = Random.Range(rangeMinX, rangeMaxX);
-    //         float randomZ = Random.Range(minZ, maxZ);
-    //         float y = pointA.y;
-
-    //         return new Vector3(randomX, y, randomZ);
-    //     }
-    //     else
-    //     {
-    //         Debug.Log("ImageTarget not active");
-    //         return new Vector3(0,0,0);
-    //     }
-    // }
-
-    public void CreateRandomPoints(){
-        ClearSpawnedObjects(); 
+    public void CreateRandomPoints()
+    {
+        ClearSpawnedObjects();
 
         // GRID
         Vector3 startPoint = ImageTarget1.transform.position;
@@ -130,9 +102,6 @@ public class StageBuilder : MonoBehaviour
         // Calculate how many cells fit into the playfield size based on absolute distances
         int gridSizeX = Mathf.FloorToInt(distanceX / gridCellSize);
         int gridSizeY = Mathf.FloorToInt(distanceZ / gridCellSize);
-
-        Debug.Log($"gridSizeX: {gridSizeX}");
-        Debug.Log($"gridSizeY: {gridSizeY}");
 
         void spawnPrefab(Vector3 wallPosition)
         {
@@ -150,7 +119,7 @@ public class StageBuilder : MonoBehaviour
                 {
                     Vector3 wallPosition = lowerLeft + new Vector3(x * gridCellSize - (0.5f * gridCellSize), 0, y * gridCellSize + gridCellSize);
                     spawnPrefab(wallPosition);
-                   
+
                 }
                 else if (x == gridSizeX - 1)
                 {
@@ -175,14 +144,30 @@ public class StageBuilder : MonoBehaviour
 
                     GameObject newGridCellPrefab = Instantiate(towerSpawnCellPrefab, cellPosition, Quaternion.identity);
                     spawnedPrefabs.Add(newGridCellPrefab);  // Keep track of the spawned prefab
-                                                            // Debug.Log($"Grid Cell spawned at: {cellPosition}");
+
                 }
 
             }
         }
+        placeGround(gridSizeX, gridSizeY, lowerLeft);
     }
 
-    private void ClearSpawnedObjects(){
+    private void placeGround(int gridSizeX, int gridSizeY, Vector3 lowerLeft)
+    {
+        for (int x = -2; x <= gridSizeX + 1; x++)
+        {
+            for (int y = -2; y <= gridSizeY + 1; y++)
+            {
+                Vector3 groundPos = lowerLeft + new Vector3(x * gridCellSize + gridCellSize, 0, y * gridCellSize + gridCellSize); ;
+                groundPos.y -= 0.001f;
+                spawnedPrefabs.Add(Instantiate(groundGrassPrefab, groundPos, Quaternion.identity));
+            }
+        }
+    }
+
+
+    private void ClearSpawnedObjects()
+    {
         foreach (GameObject spawnedPrefab in spawnedPrefabs)
         {
             Destroy(spawnedPrefab);
