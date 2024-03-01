@@ -86,7 +86,7 @@ public class StageBuilder : MonoBehaviour
         }
     }
 
-    public void CreateRandomPoints()
+    public void BuildStage()
     {
         ClearSpawnedObjects();
 
