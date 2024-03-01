@@ -19,14 +19,7 @@ public class StageBuilder : MonoBehaviour
 
     void Start()
     {
-        // Initialize the LineRenderer component
-        lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.widthMultiplier = 0.02f; // Change the width of the line here
-        lineRenderer.positionCount = 5;
-
-        // Optional: Customize the appearance of the line
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.startColor = lineRenderer.endColor = Color.red; // Change line color here
+        //initLineRenderer();
 
         //Vector3 pointA = ImageTarget1.transform.position;
         //Vector3 pointB = ImageTarget2.transform.position;
@@ -55,6 +48,22 @@ public class StageBuilder : MonoBehaviour
 
     void Update()
     {
+        //drawLineRenderer();
+    }
+    private void initLineRenderer()
+    {
+        // Initialize the LineRenderer component
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.widthMultiplier = 0.02f; // Change the width of the line here
+        lineRenderer.positionCount = 5;
+
+        // Optional: Customize the appearance of the line
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = lineRenderer.endColor = Color.red; // Change line color here
+    }
+
+    private void drawLineRenderer()
+    {
         // Check if both image targets are active (detected)
         if (cornerBehaviour1.tracked && cornerBehaviour2.tracked)
         {
@@ -62,7 +71,7 @@ public class StageBuilder : MonoBehaviour
             Vector3 pointB = ImageTarget2.transform.position;
             Vector3 pointC = new Vector3(pointA.x, pointA.y, pointB.z);
             Vector3 pointD = new Vector3(pointB.x, pointA.y, pointA.z);
-            
+
             lineRenderer.SetPosition(0, pointA);
             lineRenderer.SetPosition(1, pointD);
             lineRenderer.SetPosition(2, pointB);
@@ -125,15 +134,50 @@ public class StageBuilder : MonoBehaviour
         Debug.Log($"gridSizeX: {gridSizeX}");
         Debug.Log($"gridSizeY: {gridSizeY}");
 
-        for (int x = 0; x < gridSizeX; x++)
+        void spawnPrefab(Vector3 wallPosition)
         {
-            for (int y = 0; y < gridSizeY; y++)
+            Quaternion randomRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
+            GameObject newWallPrefab = Instantiate(wallPrefab, wallPosition, randomRotation);
+            spawnedPrefabs.Add(newWallPrefab);
+        }
+
+        for (int x = -1; x <= gridSizeX; x++)
+        {
+            for (int y = -1; y <= gridSizeY; y++)
             {
-                Vector3 cellPosition = lowerLeft + new Vector3(x * gridCellSize + gridCellSize, 0, y * gridCellSize + gridCellSize);
-                
-                GameObject newGridCellPrefab = Instantiate(towerSpawnCellPrefab, cellPosition, Quaternion.identity);
-                spawnedPrefabs.Add(newGridCellPrefab);  // Keep track of the spawned prefab
-                // Debug.Log($"Grid Cell spawned at: {cellPosition}");
+                // If Statements to cover the outer Parts of our playing field with a Wall Prefab
+                if (x == 0)
+                {
+                    Vector3 wallPosition = lowerLeft + new Vector3(x * gridCellSize - (0.5f * gridCellSize), 0, y * gridCellSize + gridCellSize);
+                    spawnPrefab(wallPosition);
+                   
+                }
+                else if (x == gridSizeX - 1)
+                {
+                    Vector3 wallPosition = lowerLeft + new Vector3(x * gridCellSize + gridCellSize + gridCellSize + (0.5f * gridCellSize), 0, y * gridCellSize + gridCellSize);
+                    spawnPrefab(wallPosition);
+                }
+                if (y == 0)
+                {
+                    Vector3 wallPosition = lowerLeft + new Vector3(x * gridCellSize + gridCellSize, 0, y * gridCellSize - (0.5f * gridCellSize));
+                    spawnPrefab(wallPosition);
+                }
+                else if (y == gridSizeY - 1)
+                {
+                    Vector3 wallPosition = lowerLeft + new Vector3(x * gridCellSize + gridCellSize, 0, y * gridCellSize + gridCellSize + gridCellSize + (0.5f * gridCellSize));
+                    spawnPrefab(wallPosition);
+                }
+
+                // Grid is bigger due to the surrounding Wall the inside contains the playing field
+                if (x >= 0 && x < gridSizeX && y >= 0 && y < gridSizeY)
+                {
+                    Vector3 cellPosition = lowerLeft + new Vector3(x * gridCellSize + gridCellSize, 0, y * gridCellSize + gridCellSize);
+
+                    GameObject newGridCellPrefab = Instantiate(towerSpawnCellPrefab, cellPosition, Quaternion.identity);
+                    spawnedPrefabs.Add(newGridCellPrefab);  // Keep track of the spawned prefab
+                                                            // Debug.Log($"Grid Cell spawned at: {cellPosition}");
+                }
+
             }
         }
     }

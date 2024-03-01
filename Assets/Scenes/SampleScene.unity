@@ -1173,8 +1173,7 @@ MonoBehaviour:
   ImageTarget2: {fileID: 299848066}
   cornerBehaviour1: {fileID: 898220596}
   cornerBehaviour2: {fileID: 299848073}
-  prefab: {fileID: 4670437073953554572, guid: 9b37bbd73133fc946b8d97489c2fcd50, type: 3}
-  wallPrefab: {fileID: 1288750250382710, guid: 06dcac17050d5f14095fa52529c730a9, type: 3}
+  wallPrefab: {fileID: 1849235780025838, guid: 50a507d55bcb98440b58d250a824d8e6, type: 3}
   wallSpacing: 0.1
   towerSpawnCellPrefab: {fileID: 1748690059236904, guid: a9e7deb71f5d580478e271456bd56d00, type: 3}
   gridCellSize: 0.1
